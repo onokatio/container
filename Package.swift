@@ -23,7 +23,8 @@ import PackageDescription
 let releaseVersion = ProcessInfo.processInfo.environment["RELEASE_VERSION"] ?? "0.0.0"
 let gitCommit = ProcessInfo.processInfo.environment["GIT_COMMIT"] ?? "unspecified"
 let builderShimVersion = "0.13.1"
-let scVersion = "0.47.0"
+let scVersion = "0.47.0-balloon"
+let scRevision = "7d8ee8302e7f7d15578983292f400c36c1d81995"
 
 let package = Package(
     name: "container",
@@ -55,7 +56,9 @@ let package = Package(
         .library(name: "ContainerK8s", targets: ["ContainerK8s"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/containerization.git", exact: Version(stringLiteral: scVersion)),
+        // Fork with usage-based virtio-balloon memory reclaim; see
+        // onokatio/containerization@memory-ballooning.
+        .package(url: "https://github.com/onokatio/containerization.git", revision: scRevision),
         .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.7.0"),
         .package(url: "https://github.com/apple/swift-collections.git", from: "1.2.0"),
         .package(url: "https://github.com/apple/swift-configuration", from: "1.0.0"),
